@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Feature.Library
 {
@@ -43,6 +44,10 @@ namespace Feature.Library
         public static bool IsEnabledString(string testString)
         {
             bool retval = false;
+
+            //  Clean up the string to check it:
+            Regex rgx = new Regex("[^a-zA-Z0-9]");
+            testString = rgx.Replace(testString, string.Empty);
 
             switch (testString)
             {
