@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text.RegularExpressions;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
+using System.Collections.Generic;
 
 namespace Feature.Library.Tests
 {
@@ -32,7 +30,9 @@ namespace Feature.Library.Tests
 
         Dictionary<string, FlagRule> testJSONRules = new Dictionary<string, FlagRule>()
         {
-            {@"{true}", new FlagRule{ Enabled = true } },
+            {"{true}", new FlagRule{ Enabled = true } },
+            {"{\"enabled\": true}", new FlagRule{ Enabled = true } },
+            {"{\"percentage\": 5, \"variantname\": \"testing\"}", new FlagRule{ Percentage = 5, VariantName = "testing" } },
         };
 
         [TestMethod]

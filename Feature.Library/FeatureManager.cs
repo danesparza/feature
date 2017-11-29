@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Feature.Library
@@ -13,7 +18,7 @@ namespace Feature.Library
         public static FlagRule ParseFeatureFlag(string featureFlagConfig)
         {
             FlagRule retval = new FlagRule();
-
+            
             //  First, see if it's just directly turning the feature on or off:
             if (IsEnabledString(featureFlagConfig))
             {
@@ -27,11 +32,23 @@ namespace Feature.Library
                 //  Otherwise, assume it's JSON and that we need to parse...
                 try
                 {
+                    using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(featureFlagConfig)))
+                    {
+                        var serializer = new DataContractJsonSerializer(typeof(FlagRule));
+                        retval = (FlagRule)serializer.ReadObject(ms);
 
+                        //  Make sure we have our properties initialized
+                        retval.Users = retval.Users ?? new List<string>();
+                        retval.Groups = retval.Groups ?? new List<string>();
+                        retval.Variants = retval.Variants ?? new List<FlagVariant>();
+                        retval.VariantName = retval.VariantName ?? string.Empty;
+                    }                    
                 }
-                catch (Exception)
-                { /* Don't really need to do anything here... */ }
-            }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+            }            
             
             return retval;
         }

@@ -11,6 +11,7 @@ namespace Feature.Library
             Users = new List<string>();
             Groups = new List<string>();
             Variants = new List<FlagVariant>();
+            VariantName = string.Empty;
         }
 
         /// <summary>
