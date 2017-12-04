@@ -38,7 +38,7 @@ namespace Feature.Library.Tests
             foreach (var item in testRules)
             {
                 //  Act
-                var retval = Feature.CheckIsEnabledFor(item.Key, testUser, testGroup, testUrl, testInternal, testAdmin);
+                var retval = Feature.IsEnabledFor(item.Key, testUser, testGroup, testUrl, testInternal, testAdmin);
 
                 //  Assert
                 Assert.AreEqual(item.Value, retval);

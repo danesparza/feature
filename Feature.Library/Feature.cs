@@ -55,7 +55,7 @@ namespace Feature.Library
         /// <param name="IsInternal">'true' if the request is internal</param>
         /// <param name="isAdmin">'true' if the request is for an admin</param>
         /// <returns></returns>
-        public static bool CheckIsEnabledFor(FlagRule rule, string user = "", string group = "", string url = "", bool IsInternal = false, bool isAdmin = false)
+        public static bool IsEnabledFor(FlagRule rule, string user = "", string group = "", string url = "", bool IsInternal = false, bool isAdmin = false)
         {
             //  By default, the rule is disabled...
             bool retval = false;
@@ -73,7 +73,8 @@ namespace Feature.Library
                 //  - see if we're in the list of users or groups that are enabled
                 //  - see if the url contains a querystring 'feature' with the matching url flag
                 //  - see if the rule is for internal users (if we're internal)
-                //  - see if the rule is for admin users (if we're an admin)                
+                //  - see if the rule is for admin users (if we're an admin)
+                //  - see if we should be percentage enabled based on our user name
 
                 //  See if the user is in the list:
                 if (rule.Users.Contains(user, StringComparer.OrdinalIgnoreCase))
