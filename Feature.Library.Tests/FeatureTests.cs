@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
+using System.Diagnostics;
 
 namespace Feature.Library.Tests
 {
@@ -13,7 +14,7 @@ namespace Feature.Library.Tests
         public void CheckIsEnabledFor_ValidFlagRulesAndInfo_Correct()
         {
             //  Arrange
-            string testUser = "mreynolds";
+            string testUser = "iserra"; /* Note that iserra will return a percentage of 13% (given 1000 buckets) */
             string testGroup = "Browncoats";
             string testUrl = "lassiter";
             bool testAdmin = true;
@@ -25,10 +26,12 @@ namespace Feature.Library.Tests
                 {new FlagRule{ Enabled = false }, false},
                 {new FlagRule{ Admin = true}, true},
                 {new FlagRule{ Internal = true}, true},
-                {new FlagRule{ Users = new List<string>{"sometestguy", "MReynolds"} }, true},
+                {new FlagRule{ Users = new List<string>{ "iserra", "MReynolds"} }, true},
                 {new FlagRule{ Users = new List<string>{"sometestguy", "someothertestguy"} }, false},
                 {new FlagRule{ Groups = new List<string>{"federation", "someothergroup"} }, false},
                 {new FlagRule{ Groups = new List<string>{"travelswithjayne", "browncoats" } }, true},
+                {new FlagRule{ PercentLoggedIn = 15 }, true}, /* iserra is in a bucket that is included */
+                {new FlagRule{ PercentLoggedIn = 5 }, false}, /* iserra is not in a bucket that is included */
             };
 
             //  For each item in the test table...
@@ -51,7 +54,7 @@ namespace Feature.Library.Tests
                 {"mreynolds", 787},
                 {"zwashburne", 987},
                 {"wwashburne", 746},
-                {"iserra", 136},
+                {"iserra", 136}, 
                 {"jcobb", 33},
                 {"kfrye", 912},
                 {"stam", 146},
@@ -83,6 +86,6 @@ namespace Feature.Library.Tests
 
             //  Assert
             Assert.AreEqual(expectedBucket, retval);
-        }
+        }        
     }
 }

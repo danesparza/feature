@@ -6,6 +6,12 @@ namespace Feature.Library
     public class Feature
     {
         /// <summary>
+        /// The number of buckets to use when calculating percentage
+        /// logged in and percentage variants
+        /// </summary>
+        private const int NUMBER_OF_BUCKETS = 1000;
+
+        /// <summary>
         /// Gets a 'bucket' for an item (using GetHashCode) and number of buckets.  
         /// Idea taken shamelessly from 
         /// https://ericlippert.com/2011/02/28/guidelines-and-rules-for-gethashcode/
@@ -98,6 +104,24 @@ namespace Feature.Library
                 {
                     retval = true;
                 }
+
+                //  If it's percentage enabled, see if we're in a picked
+                //  bucket based on our user name and the percentage that
+                //  should be enabled
+                if (rule.PercentLoggedIn > 0)
+                {
+                    //  Get the bucket for the user
+                    int userBucket = GetBucket(user, NUMBER_OF_BUCKETS);
+
+                    //  Calculate the scaled percent for the bucket
+                    int scaledPercent = (int)((userBucket / (float)NUMBER_OF_BUCKETS) * 100);
+
+                    //  Compare the bucket's percent vs 
+                    //  the percent that should get the feature
+                    if (scaledPercent < rule.PercentLoggedIn)
+                        retval = true;
+                }
+                
             }            
 
             return retval;

@@ -42,6 +42,7 @@ namespace Feature.Library
                         retval.Groups = retval.Groups ?? new List<string>();
                         retval.Variants = retval.Variants ?? new List<FlagVariant>();
                         retval.VariantName = retval.VariantName ?? string.Empty;
+                        retval.Url = retval.Url ?? string.Empty;
                     }                    
                 }
                 catch (Exception ex)
