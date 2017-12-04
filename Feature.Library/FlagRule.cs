@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace Feature.Library
 {
+    /// <summary>
+    /// Feature Flag rule definition
+    /// </summary>
     [DataContract]
     public class FlagRule
     {
@@ -15,21 +18,21 @@ namespace Feature.Library
         }
 
         /// <summary>
-        /// The feature is enabled.  Required
+        /// Indicates the feature is completely enabled or disabled for everyone.
         /// </summary>
         [DataMember(Name="enabled")]
-        public bool Enabled { get; set; }
+        public bool? Enabled { get; set; }
 
         /// <summary>
-        /// Indicates the feature is only on for a certain percentage of regular users  
+        /// Indicates the feature is only on for a certain percentage of logged in users
         /// </summary>
-        [DataMember(Name = "percentage")]
-        public int Percentage { get; set; }
+        [DataMember(Name = "percent_loggedin")]
+        public int PercentLoggedIn { get; set; }
 
         /// <summary>
         /// The winning variant name
         /// </summary>
-        [DataMember(Name = "variantname")]
+        [DataMember(Name = "variant_name")]
         public string VariantName { get; set; }
 
         /// <summary>
@@ -39,10 +42,16 @@ namespace Feature.Library
         public bool Admin { get; set; }
 
         /// <summary>
-        /// Indicates the feature is enabled for internal users
+        /// Indicates the feature is for internal users
         /// </summary>
         [DataMember(Name = "internal")]
         public bool Internal { get; set; }
+
+        /// <summary>
+        /// Indicates the feature should be on by url
+        /// </summary>
+        [DataMember(Name = "url")]
+        public string Url { get; set; }
 
         /// <summary>
         /// Indicates the set of users the feature is enabled for

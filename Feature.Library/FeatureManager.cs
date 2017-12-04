@@ -20,7 +20,7 @@ namespace Feature.Library
             FlagRule retval = new FlagRule();
             
             //  First, see if it's just directly turning the feature on or off:
-            if (IsEnabledString(featureFlagConfig))
+            if (IsEnablingString(featureFlagConfig ?? ""))
             {
                 retval = new FlagRule()
                 {
@@ -32,7 +32,7 @@ namespace Feature.Library
                 //  Otherwise, assume it's JSON and that we need to parse...
                 try
                 {
-                    using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(featureFlagConfig)))
+                    using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(featureFlagConfig ?? "")))
                     {
                         var serializer = new DataContractJsonSerializer(typeof(FlagRule));
                         retval = (FlagRule)serializer.ReadObject(ms);
@@ -58,13 +58,13 @@ namespace Feature.Library
         /// </summary>
         /// <param name="testString"></param>
         /// <returns></returns>
-        public static bool IsEnabledString(string testString)
+        public static bool IsEnablingString(string testString)
         {
             bool retval = false;
 
             //  Clean up the string to check it:
             Regex rgx = new Regex("[^a-zA-Z0-9]");
-            testString = rgx.Replace(testString, string.Empty);
+            testString = rgx.Replace(testString ?? "", string.Empty);
 
             switch (testString)
             {
