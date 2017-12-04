@@ -57,6 +57,7 @@ namespace Feature.Library.Tests
                 {"stam", 146},
                 {"rtam", 147},
                 {"dbook", 466},
+                {"", 0},
             };
 
             //  For each item in the test table...
@@ -68,6 +69,20 @@ namespace Feature.Library.Tests
                 //  Assert
                 Assert.AreEqual(item.Value, retval);
             }
+        }
+
+        [TestMethod]
+        public void GetBucket_NullItem_ReturnsBucketNumber()
+        {
+            //  Arrange
+            string itemName = null;
+            int expectedBucket = 0;
+
+            //  Act
+            var retval = Feature.GetBucket(itemName);
+
+            //  Assert
+            Assert.AreEqual(expectedBucket, retval);
         }
     }
 }
