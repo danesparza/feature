@@ -6,6 +6,39 @@ namespace Feature.Library
     public class Feature
     {
         /// <summary>
+        /// Gets a 'bucket' for an item (using GetHashCode) and number of buckets.  
+        /// Idea taken shamelessly from 
+        /// https://ericlippert.com/2011/02/28/guidelines-and-rules-for-gethashcode/
+        /// </summary>
+        /// <param name="item">The item to get a bucket for</param>
+        /// <param name="numberOfBuckets">The number of buckets to use when 'bucketing'</param>
+        /// <returns></returns>
+        public static int GetBucket(string item, int numberOfBuckets = 1000)
+        {
+            int retval = 0;
+
+            //  If we have null or empty ... 
+            //  (I'm not sure why this would ever happen)
+            //  return bucket 0
+            if (string.IsNullOrWhiteSpace(item))
+            {
+                retval = 0;
+            }
+            else
+            {
+                //  Otherwise ... calculate the bucket it should be in
+                unchecked
+                {
+                    // A hash code can be negative, and thus its remainder can be negative also.
+                    // Do the math in unsigned ints to be sure we stay positive.
+                    retval = (int)((uint)item.GetHashCode() % (uint)numberOfBuckets);
+                }
+            }
+
+            return retval;
+        }
+        
+        /// <summary>
         /// Given a flag ruleset and some parameters, check
         /// to see if the feature flag is enabled
         /// </summary>

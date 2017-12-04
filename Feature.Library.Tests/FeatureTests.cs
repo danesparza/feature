@@ -19,7 +19,7 @@ namespace Feature.Library.Tests
             bool testAdmin = true;
             bool testInternal = true;
 
-            Dictionary<FlagRule, bool> testJSONRules = new Dictionary<FlagRule, bool>()
+            Dictionary<FlagRule, bool> testRules = new Dictionary<FlagRule, bool>()
             {
                 {new FlagRule{ Enabled = true }, true },
                 {new FlagRule{ Enabled = false }, false},
@@ -32,10 +32,38 @@ namespace Feature.Library.Tests
             };
 
             //  For each item in the test table...
-            foreach (var item in testJSONRules)
+            foreach (var item in testRules)
             {
                 //  Act
                 var retval = Feature.CheckIsEnabledFor(item.Key, testUser, testGroup, testUrl, testInternal, testAdmin);
+
+                //  Assert
+                Assert.AreEqual(item.Value, retval);
+            }
+        }
+
+        [TestMethod]
+        public void GetBucket_ValidItem_ReturnsBucketNumber()
+        {
+            //  Arrange
+            Dictionary<string, int> bucketTests = new Dictionary<string, int>()
+            {
+                {"mreynolds", 787},
+                {"zwashburne", 987},
+                {"wwashburne", 746},
+                {"iserra", 136},
+                {"jcobb", 33},
+                {"kfrye", 912},
+                {"stam", 146},
+                {"rtam", 147},
+                {"dbook", 466},
+            };
+
+            //  For each item in the test table...
+            foreach (var item in bucketTests)
+            {
+                //  Act
+                var retval = Feature.GetBucket(item.Key);
 
                 //  Assert
                 Assert.AreEqual(item.Value, retval);
