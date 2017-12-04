@@ -122,8 +122,12 @@ namespace Feature.Library
                     if (scaledPercent < rule.PercentLoggedIn)
                         retval = true;
                 }
-                
-            }            
+
+                //  Need to implment something like
+                //  https://github.com/reddit/reddit/blob/40625dcc070155588d33754ef5b15712c254864b/r2/r2/config/feature/state.py#L130-L208
+                //  To choose a variant
+
+            }
 
             return retval;
         }
