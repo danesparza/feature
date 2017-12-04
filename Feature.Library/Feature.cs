@@ -1,4 +1,7 @@
-﻿namespace Feature.Library
+﻿using System;
+using System.Linq;
+
+namespace Feature.Library
 {
     public class Feature
     {
@@ -18,12 +21,12 @@
             //  By default, the rule is disabled...
             bool retval = false;
 
-            //  First see if the feature is hard disabled
-            if (rule.Enabled.HasValue && rule.Enabled.Value == false)
+            //  First see if the feature is hard enabled/disabled
+            if (rule.Enabled.HasValue)
             {
-                //  If the rule indicates it's hard disabled, 
+                //  If the rule indicates it's hard enabled/disabled, 
                 //  set the retval and get out
-                retval = false;
+                retval = rule.Enabled.Value;
             }
             else
             {
@@ -34,13 +37,13 @@
                 //  - see if the rule is for admin users (if we're an admin)                
 
                 //  See if the user is in the list:
-                if (rule.Users.Contains(user))
+                if (rule.Users.Contains(user, StringComparer.OrdinalIgnoreCase))
                 {
                     retval = true;
                 }
 
                 //  See if this group is in the list:
-                if (rule.Groups.Contains(group))
+                if (rule.Groups.Contains(group, StringComparer.OrdinalIgnoreCase))
                 {
                     retval = true;
                 }

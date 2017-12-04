@@ -15,6 +15,7 @@ namespace Feature.Library
             Groups = new List<string>();
             Variants = new List<FlagVariant>();
             VariantName = string.Empty;
+            Url = string.Empty;
         }
 
         /// <summary>

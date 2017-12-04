@@ -75,7 +75,5 @@ namespace Feature.Library.Tests
             //  Assert
             Check.That(retval).HasFieldsWithSameValues(expectedRule);
         }
-
-        
     }
 }
