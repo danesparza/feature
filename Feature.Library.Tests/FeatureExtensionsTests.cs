@@ -8,7 +8,7 @@ namespace Feature.Library.Tests
     public class FeatureExtensionsTests
     {     
         [TestMethod]
-        public void IsEnabledString_ValidTestString_ReturnsCorrectly()
+        public void IsFeatureEnablingString_ValidTestString_ReturnsCorrectly()
         {
             //  Arrange
             Dictionary<string, bool> testEnableStrings = new Dictionary<string, bool>()
