@@ -41,7 +41,7 @@ namespace Feature.Library.Tests
         }
 
         [TestMethod]
-        public void ParseFeatureFlag_ValidRuleString_ParsesCorrectly()
+        public void ToFeatureFlag_ValidRuleString_ParsesCorrectly()
         {
             //  Arrange
             Dictionary<string, FeatureFlag> testJSONRules = new Dictionary<string, FeatureFlag>()
@@ -74,6 +74,29 @@ namespace Feature.Library.Tests
 
             //  Assert
             Check.That(retval).HasFieldsWithSameValues(expectedRule);
+        }
+
+        [TestMethod]
+        public void ToJSON_ValidFeatureFlag_SerializesCorrectly()
+        {
+            //  Arrange
+            Dictionary<string, FeatureFlag> testJSONRules = new Dictionary<string, FeatureFlag>()
+            {   
+                /* Note the sorting and spacing in the JSON strings... */
+                {"{\"enabled\":true}", new FeatureFlag{ Enabled = true } },
+                {"{\"admin\":true,\"internal\":true}", new FeatureFlag{ Internal = true, Admin = true } },
+                {"{\"users\":[\"testuser\"]}", new FeatureFlag{ Users = new List<string>{ "testuser"} } },
+            };
+
+            //  For each item in the test table...
+            foreach (var item in testJSONRules)
+            {
+                //  Act
+                var retval = item.Value.ToJSON();
+
+                //  Assert
+                Assert.AreEqual(item.Key, retval);
+            }
         }
     }
 }

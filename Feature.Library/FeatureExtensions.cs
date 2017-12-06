@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Feature.Library
 {
@@ -55,13 +56,42 @@ namespace Feature.Library
         }
 
         /// <summary>
-        /// Serialize a FlagRule to a JSON string
+        /// Serialize a FeatureFlag to a JSON string
         /// </summary>
-        /// <param name="rule"></param>
+        /// <param name="featureFlag"></param>
         /// <returns></returns>
-        public static string ToJSON(this FeatureFlag rule)
+        public static string ToJSON(this FeatureFlag featureFlag)
         {
             string retval = string.Empty;
+            FeatureFlag newFlag = new FeatureFlag();
+
+            try
+            {
+                //  Copy the feature flag (with a few rules applied)
+                newFlag.Admin = featureFlag.Admin;
+                newFlag.Enabled = featureFlag.Enabled.HasValue ? featureFlag.Enabled : null;
+                newFlag.Groups = featureFlag.Groups.Any() ? featureFlag.Groups.ToList() : null;
+                newFlag.Internal = featureFlag.Internal;
+                newFlag.PercentLoggedIn = featureFlag.PercentLoggedIn;
+                newFlag.Url = string.IsNullOrWhiteSpace(featureFlag.Url) ? null : featureFlag.VariantName;
+                newFlag.Users = featureFlag.Users.Any() ? featureFlag.Users.ToList() : null;
+                newFlag.VariantName = string.IsNullOrWhiteSpace(featureFlag.VariantName) ? null : featureFlag.VariantName;
+                newFlag.Variants = featureFlag.Variants.Any() ? featureFlag.Variants.ToList() : null;
+
+                using (var ms = new MemoryStream())
+                {
+                    //  Serialize to the memory stream:
+                    var serializer = new DataContractJsonSerializer(typeof(FeatureFlag));
+                    serializer.WriteObject(ms, newFlag);
+
+                    //  Get the string
+                    retval = Encoding.Default.GetString(ms.ToArray());
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
 
             return retval;
         }
