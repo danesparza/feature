@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Feature.Library.Tests
 {
     [TestClass]
-    public class FeatureManagerTests
+    public class FeatureExtensionsTests
     {     
         [TestMethod]
         public void IsEnabledString_ValidTestString_ReturnsCorrectly()
@@ -33,7 +33,7 @@ namespace Feature.Library.Tests
             foreach (var item in testEnableStrings)
             {
                 //  Act
-                var retval = FeatureManager.IsEnablingString(item.Key);
+                var retval = item.Key.IsFeatureEnablingString();
 
                 //  Assert
                 Assert.AreEqual(item.Value, retval);
@@ -55,7 +55,7 @@ namespace Feature.Library.Tests
             foreach (var item in testJSONRules)
             {
                 //  Act
-                var retval = FeatureManager.ParseFeatureFlag(item.Key);
+                var retval = item.Key.ParseFeatureFlag();
 
                 //  Assert
                 Check.That(retval).HasFieldsWithSameValues(item.Value);
@@ -70,7 +70,7 @@ namespace Feature.Library.Tests
             FlagRule expectedRule = new FlagRule();
 
             //  Act
-            var retval = FeatureManager.ParseFeatureFlag(jsonString);
+            var retval = jsonString.ParseFeatureFlag();
 
             //  Assert
             Check.That(retval).HasFieldsWithSameValues(expectedRule);

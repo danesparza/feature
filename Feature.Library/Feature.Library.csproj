@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Feature.cs" />
-    <Compile Include="FeatureManager.cs" />
+    <Compile Include="FeatureExtensions.cs" />
     <Compile Include="FlagRule.cs" />
     <Compile Include="FlagVariant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

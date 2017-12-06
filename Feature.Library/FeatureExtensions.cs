@@ -8,19 +8,19 @@ using System.Text.RegularExpressions;
 
 namespace Feature.Library
 {
-    public class FeatureManager
+    public static class FeatureExtensions
     {
         /// <summary>
         /// Parse a string (possibly JSON) into a FlagResult
         /// </summary>
         /// <param name="featureFlagConfig"></param>
         /// <returns></returns>
-        public static FlagRule ParseFeatureFlag(string featureFlagConfig)
+        public static FlagRule ParseFeatureFlag(this string featureFlagConfig)
         {
             FlagRule retval = new FlagRule();
             
             //  First, see if it's just directly turning the feature on or off:
-            if (IsEnablingString(featureFlagConfig ?? ""))
+            if (IsFeatureEnablingString(featureFlagConfig ?? ""))
             {
                 retval = new FlagRule()
                 {
@@ -59,7 +59,7 @@ namespace Feature.Library
         /// </summary>
         /// <param name="testString"></param>
         /// <returns></returns>
-        public static bool IsEnablingString(string testString)
+        public static bool IsFeatureEnablingString(this string testString)
         {
             bool retval = false;
 
