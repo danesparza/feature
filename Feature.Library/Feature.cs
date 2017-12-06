@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Feature.Library
@@ -23,29 +25,28 @@ namespace Feature.Library
         {
             int retval = 0;
 
-            //  If we have null or empty ... 
-            //  (I'm not sure why this would ever happen)
-            //  return bucket 0
-            if (string.IsNullOrWhiteSpace(item))
+            try
             {
-                retval = 0;
-            }
-            else
-            {
-                //  Otherwise ... calculate the bucket it should be in
-                unchecked
+                //  As long as we don't have null or empty ... 
+                //  (I'm not sure why this would ever happen)
+                if (!string.IsNullOrWhiteSpace(item))
                 {
-                    // A hash code can be negative, and thus its remainder can be negative also.
-                    // Do the math in unsigned ints to be sure we stay positive.
-                    retval = (int)((uint)item.GetHashCode() % (uint)numberOfBuckets);
+                    unchecked
+                    {
+                        // A hash code can be negative, and thus its remainder can be negative also.
+                        // Do the math in unsigned ints to be sure we stay positive.
+                        retval = (int)((uint)item.GetHashCode() % (uint)numberOfBuckets);
+                    }
                 }
             }
+            catch (Exception)
+            { /* Don't do anything */}
 
             return retval;
         }
         
         /// <summary>
-        /// Given a flag ruleset and some parameters, check
+        /// Given a feature flag and some parameters, check
         /// to see if the feature flag is enabled
         /// </summary>
         /// <param name="rule">The feature flag ruleset</param>
@@ -105,7 +106,7 @@ namespace Feature.Library
                 {
                     retval = true;
                 }
-
+                
                 //  If it's percentage enabled, see if we're in a picked
                 //  bucket based on our user name and the percentage that
                 //  should be enabled
@@ -123,10 +124,79 @@ namespace Feature.Library
                         retval = true;
                 }
 
-                //  Need to implment something like
-                //  https://github.com/reddit/reddit/blob/40625dcc070155588d33754ef5b15712c254864b/r2/r2/config/feature/state.py#L130-L208
-                //  To choose a variant
+            }
 
+            return retval;
+        }
+
+        /// <summary>
+        /// Given a feature flag and a user, see what variant should be enabled 
+        /// (or "None" if no variant is enabled)
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <param name="user"></param>
+        /// <returns>The variant name, or None if bucket doesn't fall into
+        /// any of the variants</returns>
+        public static string GetVariantFor(FeatureFlag rule, string user = "")
+        {            
+            //  Our default return value
+            string retval = "None";
+
+            //  If we have variants specified, determine 
+            //  which variant (if any) should be selected
+            if (rule.Variants.Any())
+            {
+                //  Get the bucket for the user
+                int userBucket = GetBucket(user, NUMBER_OF_BUCKETS);
+
+                //  We want to always include two control groups, but allow overriding of
+                //  their percentages.
+                Dictionary<string, double> all_variants = new Dictionary<string, double>()
+                    {
+                        { "control_1", 10},
+                        { "control_2", 10},
+                    };
+
+                //  Add the rule variants to the base variants (and allow them
+                //  to overwrite the original base variants)
+                rule.Variants.ForEach(x => all_variants[x.Name] = x.Percentage);
+
+                int numVariants = all_variants.Count;
+                var variantNames = all_variants.Keys.ToList();
+
+                //  If the variants took up the entire set of buckets, which
+                //  bucket would we be in?
+                string candidate = variantNames[userBucket % numVariants];
+
+                /* Log a warning if this variant is capped, to help us prevent user (us)
+                 * error.  It's not the most correct to only check the one, but it's
+                 * easy and quick, and anything with that high a percentage should be
+                 * selected quite often.
+                */
+                var variant_fraction = all_variants[candidate] / 100.0;
+                var variant_cap = 1.0 / numVariants;
+                if (variant_fraction > variant_cap)
+                {
+                    //  Log a warning
+                    Trace.TraceWarning("Variant {0} exceeds allowable percentage ({1:0.0%} > {2:0.0%})", candidate, variant_fraction, variant_cap);                    
+                }
+
+                /* Variant percentages are expressed as numeric percentages rather than
+                 * a fraction of 1 (that is, 1.5 means 1.5%, not 150%); thus, at 100
+                 * buckets, buckets and percents map 1:1 with each other.  Since we may
+                 * have more than 100 buckets (causing each bucket to represent less
+                 * than 1% each), we need to scale up how far "right" we move for each
+                 * variant percent. 
+                */
+                var bucket_multiplier = NUMBER_OF_BUCKETS / 100;
+                if (userBucket < (all_variants[candidate] * numVariants * bucket_multiplier))
+                {
+                    retval = candidate;
+                }
+                else
+                {
+                    retval = "None";
+                }
             }
 
             return retval;

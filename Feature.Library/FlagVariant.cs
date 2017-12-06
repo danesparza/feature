@@ -13,6 +13,6 @@
         /// <summary>
         /// The percentage en
         /// </summary>
-        public int Percentage { get; set; }
+        public double Percentage { get; set; }
     }
 }

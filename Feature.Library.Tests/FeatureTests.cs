@@ -11,7 +11,7 @@ namespace Feature.Library.Tests
     public class FeatureTests
     {        
         [TestMethod]
-        public void CheckIsEnabledFor_ValidFlagRulesAndInfo_Correct()
+        public void IsEnabledFor_ValidFlagRulesAndInfo_Correct()
         {
             //  Arrange
             string testUser = "iserra"; /* Note that iserra will return a percentage of 13% (given 1000 buckets) */
@@ -86,6 +86,45 @@ namespace Feature.Library.Tests
 
             //  Assert
             Assert.AreEqual(expectedBucket, retval);
-        }        
+        }
+
+        [TestMethod]
+        public void GetVariantFor_ValidFlagRulesAndInfo_Correct()
+        {
+            //  Arrange
+            FeatureFlag testFlag = new FeatureFlag()
+            {
+                Variants = new List<FlagVariant>{
+                    new FlagVariant{ Name = "One", Percentage = 15 },
+                    new FlagVariant{ Name = "Two", Percentage = 15 },
+                    new FlagVariant{ Name = "Three", Percentage = 15 },
+                }
+            };
+
+            //  Our test table of users and expected variants
+            Dictionary<string, string> testUsers = new Dictionary<string, string>()
+            {
+                {"mreynolds", "None"},
+                {"zwashburne", "None"},
+                {"wwashburne", "None"},
+                {"iserra", "control_2"},
+                {"jcobb", "Two"},
+                {"kfrye", "None"},
+                {"stam", "control_2"},
+                {"rtam", "One"},
+                {"dbook", "control_2"},
+                {"", "control_1"},
+            };
+
+            //  For each item in the test table...
+            foreach (var item in testUsers)
+            {
+                //  Act
+                var retval = Feature.GetVariantFor(testFlag, item.Key);
+
+                //  Assert
+                Assert.AreEqual(item.Value, retval);
+            }
+        }
     }
 }
