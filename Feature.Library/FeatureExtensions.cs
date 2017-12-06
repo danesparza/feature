@@ -11,18 +11,18 @@ namespace Feature.Library
     public static class FeatureExtensions
     {
         /// <summary>
-        /// Parse a string (possibly JSON) into a FlagResult
+        /// Parse a string (possibly JSON) into a FeatureFlag
         /// </summary>
         /// <param name="featureFlagConfig"></param>
         /// <returns></returns>
-        public static FlagRule ParseFeatureFlag(this string featureFlagConfig)
+        public static FeatureFlag ToFeatureFlag(this string featureFlagConfig)
         {
-            FlagRule retval = new FlagRule();
+            FeatureFlag retval = new FeatureFlag();
             
             //  First, see if it's just directly turning the feature on or off:
-            if (IsFeatureEnablingString(featureFlagConfig ?? ""))
+            if (IsFeatureCompletelyEnabled(featureFlagConfig ?? ""))
             {
-                retval = new FlagRule()
+                retval = new FeatureFlag()
                 {
                     Enabled = true
                 };
@@ -34,8 +34,8 @@ namespace Feature.Library
                 {
                     using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(featureFlagConfig ?? "")))
                     {
-                        var serializer = new DataContractJsonSerializer(typeof(FlagRule));
-                        retval = (FlagRule)serializer.ReadObject(ms);
+                        var serializer = new DataContractJsonSerializer(typeof(FeatureFlag));
+                        retval = (FeatureFlag)serializer.ReadObject(ms);
 
                         //  Make sure we have our properties initialized
                         retval.Users = retval.Users ?? new List<string>();
@@ -55,11 +55,23 @@ namespace Feature.Library
         }
 
         /// <summary>
+        /// Serialize a FlagRule to a JSON string
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <returns></returns>
+        public static string ToJSON(this FeatureFlag rule)
+        {
+            string retval = string.Empty;
+
+            return retval;
+        }
+
+        /// <summary>
         /// Checks to see if the passed string roughly equates to turning the feature completely on
         /// </summary>
         /// <param name="testString"></param>
         /// <returns></returns>
-        public static bool IsFeatureEnablingString(this string testString)
+        public static bool IsFeatureCompletelyEnabled(this string testString)
         {
             bool retval = false;
 

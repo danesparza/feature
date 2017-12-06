@@ -33,7 +33,7 @@ namespace Feature.Library.Tests
             foreach (var item in testEnableStrings)
             {
                 //  Act
-                var retval = item.Key.IsFeatureEnablingString();
+                var retval = item.Key.IsFeatureCompletelyEnabled();
 
                 //  Assert
                 Assert.AreEqual(item.Value, retval);
@@ -44,18 +44,18 @@ namespace Feature.Library.Tests
         public void ParseFeatureFlag_ValidRuleString_ParsesCorrectly()
         {
             //  Arrange
-            Dictionary<string, FlagRule> testJSONRules = new Dictionary<string, FlagRule>()
+            Dictionary<string, FeatureFlag> testJSONRules = new Dictionary<string, FeatureFlag>()
             {
-                {"{true}", new FlagRule{ Enabled = true } },
-                {"{\"enabled\": true}", new FlagRule{ Enabled = true } },
-                {"{\"percent_loggedin\": 5, \"variant_name\": \"testing\"}", new FlagRule{ PercentLoggedIn = 5, VariantName = "testing", Enabled = null } },
+                {"{true}", new FeatureFlag{ Enabled = true } },
+                {"{\"enabled\": true}", new FeatureFlag{ Enabled = true } },
+                {"{\"percent_loggedin\": 5, \"variant_name\": \"testing\"}", new FeatureFlag{ PercentLoggedIn = 5, VariantName = "testing", Enabled = null } },
             };
 
             //  For each item in the test table...
             foreach (var item in testJSONRules)
             {
                 //  Act
-                var retval = item.Key.ParseFeatureFlag();
+                var retval = item.Key.ToFeatureFlag();
 
                 //  Assert
                 Check.That(retval).HasFieldsWithSameValues(item.Value);
@@ -67,10 +67,10 @@ namespace Feature.Library.Tests
         {
             //  Arrange
             string jsonString = null;
-            FlagRule expectedRule = new FlagRule();
+            FeatureFlag expectedRule = new FeatureFlag();
 
             //  Act
-            var retval = jsonString.ParseFeatureFlag();
+            var retval = jsonString.ToFeatureFlag();
 
             //  Assert
             Check.That(retval).HasFieldsWithSameValues(expectedRule);

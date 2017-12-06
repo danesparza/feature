@@ -7,9 +7,9 @@ namespace Feature.Library
     /// Feature Flag rule definition
     /// </summary>
     [DataContract]
-    public class FlagRule
+    public class FeatureFlag
     {
-        public FlagRule()
+        public FeatureFlag()
         {
             Users = new List<string>();
             Groups = new List<string>();

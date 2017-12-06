@@ -20,18 +20,18 @@ namespace Feature.Library.Tests
             bool testAdmin = true;
             bool testInternal = true;
 
-            Dictionary<FlagRule, bool> testRules = new Dictionary<FlagRule, bool>()
+            Dictionary<FeatureFlag, bool> testRules = new Dictionary<FeatureFlag, bool>()
             {
-                {new FlagRule{ Enabled = true }, true },
-                {new FlagRule{ Enabled = false }, false},
-                {new FlagRule{ Admin = true}, true},
-                {new FlagRule{ Internal = true}, true},
-                {new FlagRule{ Users = new List<string>{ "iserra", "MReynolds"} }, true},
-                {new FlagRule{ Users = new List<string>{"sometestguy", "someothertestguy"} }, false},
-                {new FlagRule{ Groups = new List<string>{"federation", "someothergroup"} }, false},
-                {new FlagRule{ Groups = new List<string>{"travelswithjayne", "browncoats" } }, true},
-                {new FlagRule{ PercentLoggedIn = 15 }, true}, /* iserra is in a bucket that is included */
-                {new FlagRule{ PercentLoggedIn = 5 }, false}, /* iserra is not in a bucket that is included */
+                {new FeatureFlag{ Enabled = true }, true },
+                {new FeatureFlag{ Enabled = false }, false},
+                {new FeatureFlag{ Admin = true}, true},
+                {new FeatureFlag{ Internal = true}, true},
+                {new FeatureFlag{ Users = new List<string>{ "iserra", "MReynolds"} }, true},
+                {new FeatureFlag{ Users = new List<string>{"sometestguy", "someothertestguy"} }, false},
+                {new FeatureFlag{ Groups = new List<string>{"federation", "someothergroup"} }, false},
+                {new FeatureFlag{ Groups = new List<string>{"travelswithjayne", "browncoats" } }, true},
+                {new FeatureFlag{ PercentLoggedIn = 15 }, true}, /* iserra is in a bucket that is included */
+                {new FeatureFlag{ PercentLoggedIn = 5 }, false}, /* iserra is not in a bucket that is included */
             };
 
             //  For each item in the test table...
