@@ -9,3 +9,22 @@ Install the [NuGet package](https://www.nuget.org/packages/Feature/) from the pa
 ```powershell
 Install-Package Feature
 ```
+
+### What are feature flags?
+
+Think of feature flags as another configuration item for your app with some special sauce.  You can guard your code with a feature flag check and then turn parts of your code on/off based on the feature flag status.  
+
+### How do I use this?
+
+These tools help you use your existing configuration system (either the [built in to .NET](https://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.appsettings(v=vs.110).aspx) or tools like [Consul](https://www.consul.io/api/kv.html), [Centralconfig](https://github.com/cagedtornado/centralconfig), or custom built)
+
+Store your feature flags in your configuration system as a JSON string and use these utilities to interact with your feature flags.
+
+#### Get a Feature Flag from JSON string
+
+```csharp
+using Feature.Library;
+
+string jsonString = "{\"enabled\": true}";
+var retval = jsonString.ToFeatureFlag();
+```
