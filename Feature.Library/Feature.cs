@@ -133,8 +133,8 @@ namespace Feature.Library
         /// Given a feature flag and a user, see what variant should be enabled 
         /// (or "None" if no variant is enabled)
         /// </summary>
-        /// <param name="rule"></param>
-        /// <param name="user"></param>
+        /// <param name="rule">The feature flag ruleset</param>
+        /// <param name="user">The user to check</param>
         /// <returns>The variant name, or None if bucket doesn't fall into
         /// any of the variants</returns>
         public static string GetVariantFor(FeatureFlag rule, string user = "")
