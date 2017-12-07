@@ -28,6 +28,18 @@ In short: Store your feature flags in your configuration system as a JSON string
 
 #### See if a feature is enabled
 
+A simple example
+```csharp
+using Feature.Library;
+
+if(Feature.IsEnabled(featureFlag, testUser))
+{
+  //  The feature is enabled.
+  //  Perform whatever needs to be done for the feature
+}
+```
+
+A more complicated example showing all possible parameters
 ```csharp
 using Feature.Library;
 
@@ -36,7 +48,7 @@ var featureFlag = new FeatureFlag{ Users = new List<string>{ "iserra", "MReynold
 
 //  Check the flag to see if our current user/group/privs/network mean that the feature is on or off
 //  (Don't worry:  almost all of these parameters are optional)
-if(Feature.IsEnabledFor(featureFlag, testUser, testGroup, testUrl, testInternal, testAdmin))
+if(Feature.IsEnabled(featureFlag, testUser, testGroup, testUrl, testInternal, testAdmin))
 {
   //  The feature is enabled.
   //  Perform whatever needs to be done for the feature
