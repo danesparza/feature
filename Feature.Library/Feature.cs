@@ -56,7 +56,7 @@ namespace Feature.Library
         /// <param name="IsInternal">'true' if the request is internal</param>
         /// <param name="isAdmin">'true' if the request is for an admin</param>
         /// <returns></returns>
-        public static bool IsEnabledFor(FeatureFlag rule, string user = "", string group = "", string url = "", bool IsInternal = false, bool isAdmin = false)
+        public static bool IsEnabled(FeatureFlag rule, string user = "", string group = "", string url = "", bool IsInternal = false, bool isAdmin = false)
         {
             //  By default, the rule is disabled...
             bool retval = false;

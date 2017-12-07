@@ -1,9 +1,5 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NFluent;
-using System.Diagnostics;
 
 namespace Feature.Library.Tests
 {
@@ -38,7 +34,7 @@ namespace Feature.Library.Tests
             foreach (var item in testRules)
             {
                 //  Act
-                var retval = Feature.IsEnabledFor(item.Key, testUser, testGroup, testUrl, testInternal, testAdmin);
+                var retval = Feature.IsEnabled(item.Key, testUser, testGroup, testUrl, testInternal, testAdmin);
 
                 //  Assert
                 Assert.AreEqual(item.Value, retval);
