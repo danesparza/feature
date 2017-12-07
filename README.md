@@ -20,11 +20,13 @@ From [etsy's docs](https://github.com/etsy/feature#feature-api) on the subject:
 
 ### How do I use this?
 
-These tools help you use your existing configuration system (either the [built in to .NET](https://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.appsettings(v=vs.110).aspx) or tools like [Consul](https://www.consul.io/api/kv.html), [Centralconfig](https://github.com/cagedtornado/centralconfig), or custom built)
+These tools help you use your existing configuration system to get & store Feature flags as JSON data, see if a feature is enabled for a given user/group/network and see what variant (if any) a user should get.
 
-Store your feature flags in your configuration system as a JSON string and use these utilities to interact with your feature flags.
+It doesn't matter if your config system is [built in to .NET](https://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.appsettings(v=vs.110).aspx) or tools like [Consul](https://www.consul.io/api/kv.html), [Centralconfig](https://github.com/cagedtornado/centralconfig), or custom built -- you can use this for feature flags.
 
-#### Get a Feature Flag from JSON string
+In short: Store your feature flags in your configuration system as a JSON string and use these utilities to interact with your feature flags.
+
+#### Get a feature flag from a JSON string
 
 ```csharp
 using Feature.Library;
@@ -32,3 +34,13 @@ using Feature.Library;
 string jsonString = "{\"enabled\": true}";
 var retval = jsonString.ToFeatureFlag();
 ```
+
+#### Store a feature flag to a JSON string
+
+```csharp
+using Feature.Library;
+
+var flag = new FeatureFlag{ Internal = true, Admin = true };
+var jsonString = flag.ToJSON();
+```
+
