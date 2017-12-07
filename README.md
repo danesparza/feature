@@ -22,9 +22,31 @@ From [etsy's docs](https://github.com/etsy/feature#feature-api) on the subject:
 
 These tools help you use your existing configuration system to get & store Feature flags as JSON data, see if a feature is enabled for a given user/group/network and see what variant (if any) a user should get.
 
-It doesn't matter if your config system is [built in to .NET](https://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.appsettings(v=vs.110).aspx) or tools like [Consul](https://www.consul.io/api/kv.html), [Centralconfig](https://github.com/cagedtornado/centralconfig), or custom built -- you can use this for feature flags.
+It doesn't matter if your config system is [built in to .NET](https://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.appsettings(v=vs.110).aspx), uses tools like [Consul](https://www.consul.io/api/kv.html) or [Centralconfig](https://github.com/cagedtornado/centralconfig), or is custom built -- you can use this for feature flags.
 
 In short: Store your feature flags in your configuration system as a JSON string and use these utilities to interact with your feature flags.
+
+#### See if a feature is enabled
+
+```csharp
+using Feature.Library;
+
+//  Read in from your configuration system somewhere...
+var featureFlag = new FeatureFlag{ Users = new List<string>{ "iserra", "MReynolds"} };
+
+//  Check the flag to see if our current user/group/privs/network mean that the feature is on or off
+//  (Don't worry:  almost all of these parameters are optional)
+if(Feature.IsEnabledFor(featureFlag, testUser, testGroup, testUrl, testInternal, testAdmin))
+{
+  //  The feature is enabled.
+  //  Perform whatever needs to be done for the feature
+
+}
+
+//  You can have an else block here...
+//  but more likely you'll just proceed as normal
+
+```
 
 #### Get a feature flag from a JSON string
 
