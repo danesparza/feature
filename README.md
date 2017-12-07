@@ -54,7 +54,7 @@ if(Feature.IsEnabledFor(featureFlag, testUser, testGroup, testUrl, testInternal,
 using Feature.Library;
 
 string jsonString = "{\"enabled\": true}";
-var retval = jsonString.ToFeatureFlag();
+FeatureFlag retval = jsonString.ToFeatureFlag();
 ```
 
 #### Store a feature flag to a JSON string
@@ -63,6 +63,6 @@ var retval = jsonString.ToFeatureFlag();
 using Feature.Library;
 
 var flag = new FeatureFlag{ Internal = true, Admin = true };
-var jsonString = flag.ToJSON();
+string jsonString = flag.ToJSON();
 ```
 
