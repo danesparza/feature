@@ -20,7 +20,7 @@ From [etsy's docs](https://github.com/etsy/feature#feature-api) on the subject:
 
 ### How do I use this?
 
-These tools help you use your existing configuration system to get & store Feature flags as JSON data, see if a feature is enabled for a given user/group/network and see what variant (if any) a user should get.
+These tools help you use your existing configuration system to see if a feature is enabled for a given user/group/network, see what variant (if any) a user should get, and get & store Feature flags as JSON data.
 
 It doesn't matter if your config system is [built in to .NET](https://msdn.microsoft.com/en-us/library/system.configuration.configurationmanager.appsettings(v=vs.110).aspx), uses tools like [Consul](https://www.consul.io/api/kv.html) or [Centralconfig](https://github.com/cagedtornado/centralconfig), or is custom built -- you can use this for feature flags.
 
@@ -32,7 +32,7 @@ A simple example
 ```csharp
 using Feature.Library;
 
-if(Feature.IsEnabled(featureFlag, testUser))
+if(Feature.IsEnabled(featureFlag))
 {
   //  The feature is enabled.
   //  Perform whatever needs to be done for the feature
