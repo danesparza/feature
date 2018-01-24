@@ -28,6 +28,10 @@ namespace Feature.Library.Tests
                 {new FeatureFlag{ Groups = new List<string>{"travelswithjayne", "browncoats" } }, true},
                 {new FeatureFlag{ PercentLoggedIn = 15 }, true}, /* iserra is in a bucket that is included */
                 {new FeatureFlag{ PercentLoggedIn = 5 }, false}, /* iserra is not in a bucket that is included */
+                {new FeatureFlag{ Users = new List<string>{ "iserra", "MReynolds"}, Groups = new List<string>{"federation", "someothergroup"} }, true}, /* iserra is still a user that is included */
+                {new FeatureFlag{ Enabled = true, Users = new List<string>{ "sometestguy", "someothertestguy"}, Groups = new List<string>{"federation", "someothergroup"} }, true}, /* if we enable it, it's enabled for everybody */
+                {new FeatureFlag{ Enabled = false, Users = new List<string>{ "iserra"}, Groups = new List<string>{"Browncoats"} }, false}, /* if we disable it, it's disabled for everybody */
+                {new FeatureFlag{ Url = "lassiter", Users = new List<string>{ "someothertestguy"}, Groups = new List<string>{"Federation"} }, true}, /* If we're at the magic url, it's enabled */
             };
 
             //  For each item in the test table...
