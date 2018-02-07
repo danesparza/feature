@@ -50,6 +50,9 @@ namespace Feature.Library.Tests
             {
                 {"{true}", new FeatureFlag{ Enabled = true } },
                 {"{\"enabled\": true}", new FeatureFlag{ Enabled = true } },
+                {"{\"enabled\": \"true\"}", new FeatureFlag{ Enabled = true } },
+                {"{\"enabled\": false}", new FeatureFlag{ Enabled = false} },
+                {"{\"enabled\": \"false\"}", new FeatureFlag{ Enabled = false} },
                 {"{\"percent_loggedin\": 5, \"variant_name\": \"testing\"}", new FeatureFlag{ PercentLoggedIn = 5, VariantName = "testing", Enabled = null } },
             };
 
