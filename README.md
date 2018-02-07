@@ -78,3 +78,27 @@ var flag = new FeatureFlag{ Internal = true, Admin = true };
 string jsonString = flag.ToJSON();
 ```
 
+## JSON format
+
+All available options:
+
+```
+{
+    "enabled": "true",
+    "users": [
+        "user1",
+        "user2"
+    ],
+    "groups": [
+        "group1",
+        "group2"
+    ],
+    "percent_loggedin": 42,
+    "variant_name": "Winning_Variant",
+    "admin": true,
+    "internal": true
+}
+```
+
+
+
