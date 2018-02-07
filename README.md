@@ -82,7 +82,7 @@ string jsonString = flag.ToJSON();
 
 All available options:
 
-```
+```JSON
 {
     "enabled": "true",
     "users": [
@@ -94,11 +94,66 @@ All available options:
         "group2"
     ],
     "percent_loggedin": 42,
-    "variant_name": "Winning_Variant",
     "admin": true,
     "internal": true
 }
 ```
 
+#### Examples
 
+Completely on
+```JSON
+{ "enabled": true}
+```
+
+Completely off
+```JSON
+{ "enabled": false}
+```
+
+On for admin
+```JSON
+{ "admin": true}
+```
+
+On for internal users/employees
+```JSON
+{ "internal": true}
+```
+
+On for certain users
+```JSON
+{
+    "users": [
+        "user1",
+        "user2"
+    ]
+}
+```
+
+On for certain groups
+```JSON
+{
+    "groups": [
+        "group1",
+        "group2"
+    ]
+}
+```
+
+On for a percentage of logged in users (0 being no users, 100 being all of them)
+```JSON
+{ "percent_loggedin": 42}
+```
+
+On for both admin and for certain users
+```JSON
+{
+    "users": [
+        "user1",
+        "user2"
+    ],
+    "admin": true
+}
+```
 
