@@ -89,8 +89,8 @@ namespace Feature.Library
                     retval = true;
                 }
 
-                //  See if the passed url is a match:
-                if (rule.Url.Trim() == url.Trim())
+                //  See if the rule url isn't blank and the passed url is a match:
+                if ((!string.IsNullOrWhiteSpace(rule.Url)) && rule.Url.Trim() == url.Trim())
                 {
                     retval = true;
                 }

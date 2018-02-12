@@ -32,6 +32,33 @@ namespace Feature.Library.Tests
                 {new FeatureFlag{ Enabled = true, Users = new List<string>{ "sometestguy", "someothertestguy"}, Groups = new List<string>{"federation", "someothergroup"} }, true}, /* if we enable it, it's enabled for everybody */
                 {new FeatureFlag{ Enabled = false, Users = new List<string>{ "iserra"}, Groups = new List<string>{"Browncoats"} }, false}, /* if we disable it, it's disabled for everybody */
                 {new FeatureFlag{ Url = "lassiter", Users = new List<string>{ "someothertestguy"}, Groups = new List<string>{"Federation"} }, true}, /* If we're at the magic url, it's enabled */
+                {new FeatureFlag{ Url = "jaynestown", Users = new List<string>{ "someothertestguy"}, Groups = new List<string>{"Federation"} }, false}, /* If we're NOT at the magic url, it's not necessary enabled */
+            };
+
+            //  For each item in the test table...
+            foreach (var item in testRules)
+            {
+                //  Act
+                var retval = Feature.IsEnabled(item.Key, testUser, testGroup, testUrl, testInternal, testAdmin);
+
+                //  Assert
+                Assert.AreEqual(item.Value, retval);
+            }
+        }
+
+        [TestMethod]
+        public void IsEnabled_TestUser_ReturnsAsExpected()
+        {
+            //  Arrange
+            string testUser = "testuser"; 
+            string testGroup = "testgroup";
+            string testUrl = "";
+            bool testAdmin = false;
+            bool testInternal = false;
+
+            Dictionary<FeatureFlag, bool> testRules = new Dictionary<FeatureFlag, bool>()
+            {
+                {new FeatureFlag{ Users = new List<string>{ "someotheruser", "anotheruser"}, Groups = new List<string>{ "someothergroup"}, Admin = true, Internal = true, Url = "" }, false},                 
             };
 
             //  For each item in the test table...
