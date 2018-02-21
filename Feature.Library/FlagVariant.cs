@@ -1,4 +1,4 @@
-﻿namespace Feature.Library
+﻿namespace FeatureFlags.Library
 {
     /// <summary>
     /// Describes a flag variant

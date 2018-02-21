@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Feature.Library
+namespace FeatureFlags.Library
 {
     /// <summary>
     /// Feature Flag rule definition

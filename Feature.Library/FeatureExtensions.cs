@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-namespace Feature.Library
+namespace FeatureFlags.Library
 {
     public static class FeatureExtensions
     {

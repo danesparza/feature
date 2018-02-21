@@ -1,7 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FeatureFlags.Library;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace Feature.Library.Tests
+namespace FeatureTesting
 {
     [TestClass]
     public class FeatureTests

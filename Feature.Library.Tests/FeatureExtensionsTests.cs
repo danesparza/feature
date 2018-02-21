@@ -1,10 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FeatureFlags.Library;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NFluent;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
-namespace Feature.Library.Tests
+namespace FeatureExtensionTesting
 {
     [TestClass]
     public class FeatureExtensionsTests

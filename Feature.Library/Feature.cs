@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Feature.Library
+namespace FeatureFlags.Library
 {
     public class Feature
     {
