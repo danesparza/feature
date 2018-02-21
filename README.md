@@ -30,7 +30,7 @@ In short: Store your feature flags in your configuration system as a JSON string
 
 A simple example
 ```csharp
-using Feature.Library;
+using FeatureFlags.Library;
 
 if(Feature.IsEnabled(featureFlag))
 {
@@ -41,7 +41,7 @@ if(Feature.IsEnabled(featureFlag))
 
 A more complicated example showing all possible parameters
 ```csharp
-using Feature.Library;
+using FeatureFlags.Library;
 
 //  Read in from your configuration system somewhere...
 var featureFlag = new FeatureFlag{ Users = new List<string>{ "iserra", "MReynolds"} };
@@ -63,7 +63,7 @@ if(Feature.IsEnabled(featureFlag, testUser, testGroup, testUrl, testInternal, te
 #### Get a feature flag from a JSON string
 
 ```csharp
-using Feature.Library;
+using FeatureFlags.Library;
 
 string jsonString = "{\"enabled\": true}";
 FeatureFlag retval = jsonString.ToFeatureFlag();
@@ -72,7 +72,7 @@ FeatureFlag retval = jsonString.ToFeatureFlag();
 #### Store a feature flag to a JSON string
 
 ```csharp
-using Feature.Library;
+using FeatureFlags.Library;
 
 var flag = new FeatureFlag{ Internal = true, Admin = true };
 string jsonString = flag.ToJSON();
